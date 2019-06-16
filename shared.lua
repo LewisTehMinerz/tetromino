@@ -146,6 +146,7 @@ shared.credits = {
     '"I Adore my C64" by Nicolai Heidlas',
     '"Chibi Ninja" by Erik Skiff - http://ericskiff.com/music',
     '"Korobeiniki" by The Red Army Choir',
+    '"National Anthem of USSR" by The Red Army Choir',
     '"Tetris Theme A" by Nintendo',
     '',
     'FONTS',
