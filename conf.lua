@@ -16,7 +16,7 @@ function love.errorhandler(err)
     local function draw()
         love.graphics.clear({ 0.05, 0.05, 0.05 })
 
-        shared.text("Too much heroin...", 32, shared.fonts.title, { 1, 0, 0, 1 })
+        shared.text("Ow...", 32, shared.fonts.title, { 1, 0, 0, 1 })
         shared.text("Tetromino crashed.", 128, shared.fonts.med2)
         shared.text("(not good)", 128+32, shared.fonts.med2)
         shared.text("Please report to the developers!", 128+64, shared.fonts.med)

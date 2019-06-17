@@ -1,8 +1,21 @@
-local discordRPC = require('lib/discordRPC')
-
 shared = {}
 
-shared.discord = discordRPC
+shared.fpsCap = 60
+
+local libstatus, liberr = pcall(function() require('lib/discordRPC') end)
+
+if libstatus then
+    shared.discord = require('lib/discordRPC')
+else
+    print('[W] Discord API not found, switching to NoOp implementation.')
+    function noop(...) end
+    shared.discord = {
+        updatePresence = noop,
+        runCallbacks = noop,
+        initialize = noop,
+        shutdown = noop
+    }
+end
 
 shared.fonts = {
     big = love.graphics.newFont('assets/fonts/standard.ttf', 36),
@@ -17,7 +30,7 @@ shared.states = {
     MAINMENU = {
         draw = function()
             shared.text('Tetromino', 64, shared.fonts.title, { 1, 64/255, 1, 1 })
-            shared.text('The Soviet mind game... on heroin!', 128)
+            shared.text('The Soviet mind game on crack!', 128)
             shared.text(shared.version .. ' on ' .. _VERSION, 196)
             shared.text('Press [ENTER] to play!', 300 - 32, shared.fonts.med, { 0, 1, 0, 1 })
 

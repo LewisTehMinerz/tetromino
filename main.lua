@@ -1,5 +1,8 @@
 require('shared')
 
+local next_time = 0
+local min_dt = 1 / shared.fpsCap
+
 function love.load()
     shared.discord.initialize('589871612392636416', true)
     shared.discord.presence({
@@ -15,6 +18,7 @@ function love.load()
     end
 
     math.randomseed(os.time())
+    next_time = love.timer.getTime()
 end
 
 function love.quit()
@@ -25,7 +29,9 @@ function love.keypressed(key, scancode, isrepeat)
     shared.state.keypress(key, scancode, isrepeat)
 end
 
-function love.update()
+function love.update(dt)
+    next_time = next_time + min_dt
+
     if not shared.currentBg or not shared.currentBg:isPlaying() then
         local nextTrack = math.random(1, #shared.audio.bg)
         print('random -> ' .. nextTrack)
@@ -39,6 +45,13 @@ function love.draw()
 
     if shared.settings[shared.setting.fpsCounter].enabled then
         love.graphics.setFont(shared.fonts.med)
-        love.graphics.print(love.timer.getFPS() .. ' FPS', 1, 1)
+        love.graphics.print(love.timer.getFPS() .. ' FPS [capped at ' .. shared.fpsCap .. ']', 1, 1)
     end
+
+    local cur_time = love.timer.getTime()
+    if next_time <= cur_time then
+        next_time = cur_time
+        return
+    end
+    love.timer.sleep(next_time - cur_time)
 end
